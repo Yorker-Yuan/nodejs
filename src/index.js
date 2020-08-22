@@ -2,6 +2,7 @@ const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
 const upload = multer({dest: 'tmp_uploads/'});
+const upload2 = require('./upload-module');
 const {v4: uuidv4} = require('uuid');
 
 const app = express();
@@ -55,6 +56,9 @@ app.post('/try-upload', upload.single('avatar'), (req, res)=>{
         res.json({success: false, error: 'no upload file !'});
     }
 
+});
+app.post('/try-upload2', upload2.single('avatar'), (req, res)=>{
+    res.json(req.file);
 });
 
 app.get('/try-uuid', (req, res)=>{
