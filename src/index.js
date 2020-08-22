@@ -1,7 +1,8 @@
 const express = require('express');
 const fs = require('fs');
 const multer = require('multer');
-const upload = multer({dest:'tmp_uploads/'});   //設定上傳暫存目錄
+const upload = multer({dest: 'tmp_uploads/'});
+const {v4: uuidv4} = require('uuid');
 
 const app = express();
 
@@ -14,7 +15,7 @@ app.use(express.json());
 
 
 app.get('/', (req, res)=>{
-    res.render('home', {name: 'Cole'});
+    res.render('home', {name: 'Bill'});
 });
 
 app.get('/json-sales', (req, res)=>{
@@ -35,10 +36,11 @@ app.get('/try-post-form', (req, res)=>{
 });
 
 app.post('/try-post-form', (req, res)=>{
-    res.render('try-post-form',req.body);
+    res.render('try-post-form', req.body);
 });
 
-app.post('/try-upload', upload.single('avatar'),(req,res)=>{
+app.post('/try-upload', upload.single('avatar'), (req, res)=>{
+    // console.log(req.file);
     if(req.file && req.file.originalname){
         if(/\.(jpg|jpeg|png|gif)$/i.test(req.file.originalname) ){
             fs.rename(req.file.path, './public/img/'+req.file.originalname, error=>{
@@ -52,8 +54,15 @@ app.post('/try-upload', upload.single('avatar'),(req,res)=>{
     } else {
         res.json({success: false, error: 'no upload file !'});
     }
+
 });
 
+app.get('/try-uuid', (req, res)=>{
+    res.json({
+        u1: uuidv4(),
+        u2: uuidv4(),
+    });
+});
 
 // --- static folder ---
 app.use(express.static('public'));
