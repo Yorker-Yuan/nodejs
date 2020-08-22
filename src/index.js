@@ -58,7 +58,16 @@ app.post('/try-upload', upload.single('avatar'), (req, res)=>{
 
 });
 app.post('/try-upload2', upload2.single('avatar'), (req, res)=>{
-    res.json(req.file);
+    res.json({
+        file: req.file,
+        body: req.body,
+    });
+});
+app.post('/try-upload2a', upload2.array('photos', 10), (req, res)=>{
+    res.json({
+        files: req.files,
+        body: req.body,
+    });
 });
 
 app.get('/try-uuid', (req, res)=>{
