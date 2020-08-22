@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+    function MyClass(name, age){
+        this.name = name;
+        this.age = age;
+    }
+    MyClass.prototype.toString = function(){
+        return this.name + ' ' + this.age;
+    }
+    MyClass.prototype.toJSON = function(){
+        return "fake JSON";
+    }
+
+    var obj = new MyClass('bill', 25);
+
+    console.log(obj.toString());
+    console.log(JSON.stringify(obj));
+
+</script>
+
+</body>
+</html>
