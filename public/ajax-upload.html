@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="lib/bootstrap-4.5.0-dist/bootstrap-4.5.0-dist/css/bootstrap.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img id="image1" src="" alt="" width="200px">
+            </div>
+        </div>
+        <div class="row">
+    
+            <button class="btn btn-info" onclick="doUpload()">選檔上傳</button>
+    
+            <div class="col-lg-6" style="display: none;">
+                <form name="form1">
+                    <div class="form-group">
+                        <label for="avatar">avatar</label>
+                        <input type="file" class="form-control" id="avatar" name="avatar" accept="image/*">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+<script src="lib/bootstrap-4.5.0-dist/bootstrap-4.5.0-dist/js/jquery-3.5.1.js"></script>
+<script src="lib/bootstrap-4.5.0-dist/bootstrap-4.5.0-dist/js/bootstrap.js"></script>
+<script>
+    const avatar = $('#avatar');
+    
+    function doUpload(){
+        avatar.click();
+    }
+    
+    avatar.change(function(){
+        const fd = new FormData(document.form1);
+        console.log(avatar[0].files);
+        
+        fetch('/try-upload2', {
+            method: 'POST',
+            body: fd
+        }).then(r=>r.json())
+        .then(obj=>{
+            console.log(obj);
+            $('#image1').attr('src', '/img/' + obj.file.filename);
+        });
+    
+    });
+    
+    </script>
+
+
+</body>
+</html>

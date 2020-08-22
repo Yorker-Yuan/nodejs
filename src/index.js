@@ -72,10 +72,23 @@ app.post('/try-upload2a', upload2.array('photos', 10), (req, res)=>{
 
 app.get('/try-uuid', (req, res)=>{
     res.json({
+        
         u1: uuidv4(),
         u2: uuidv4(),
     });
 });
+//設定路由
+app.get('/my-params1/:action?/:id?', (req, res)=>{
+    res.json(req.params);   //?為選擇性的
+});
+app.get(/\/m\/09\d{2}-?\d{3}-?\d{3}$/i, (req, res)=>{
+    //res.send(req.url);
+    let u = req.url.slice(3);
+    u = u.split('?')[0];
+    u = u.split('-').join('');
+    res.send(u);
+});
+
 
 // --- static folder ---
 app.use(express.static('public'));
