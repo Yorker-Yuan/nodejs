@@ -38,6 +38,22 @@ app.post('/try-post-form', (req, res)=>{
     res.render('try-post-form',req.body);
 });
 
+app.post('/try-upload', upload.single('avatar'),(req,res)=>{
+    if(req.file && req.file.originalname){
+        if(/\.(jpg|jpeg|png|gif)$/i.test(req.file.originalname) ){
+            fs.rename(req.file.path, './public/img/'+req.file.originalname, error=>{
+                res.json({success: true});
+            });
+        } else {
+            fs.unlink(req.file.path, error=>{
+                res.json({success: false, error: 'bad file type!'});
+            });
+        }
+    } else {
+        res.json({success: false, error: 'no upload file !'});
+    }
+});
+
 
 // --- static folder ---
 app.use(express.static('public'));
